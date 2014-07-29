@@ -1,0 +1,7 @@
+response.title = "Witter"
+response.subtitle = "Super Awesome Twitter Clone in Web2py"
+response.menu = [
+(T('Home'), False, URL('default','home')),
+(T('Wall'), False, URL('default','wall')),
+(T('Search'), False, URL('default','search')),
+]

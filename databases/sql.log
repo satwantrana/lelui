@@ -1,0 +1,114 @@
+timestamp: 2014-07-16T22:31:25.264445
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+success!
+timestamp: 2014-07-16T22:31:25.270904
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2014-07-16T22:31:25.276730
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-07-16T22:31:25.283544
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2014-07-16T22:31:25.290600
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2014-07-16T22:31:25.296733
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2014-07-16T23:36:39.664189
+CREATE TABLE data_extractions(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    submissions,integer CHAR(512),
+    elements TEXT
+);
+success!
+timestamp: 2014-07-16T23:37:27.454691
+CREATE TABLE data_extraction(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    submissions,integer CHAR(512),
+    elements TEXT
+);
+success!
+timestamp: 2014-07-16T23:37:27.463386
+CREATE TABLE data_list(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sentence TEXT,
+    conjunction TEXT,
+    submissions INTEGER,
+    extractions TEXT
+);
+success!
+timestamp: 2014-07-17T00:17:48.160014
+ALTER TABLE data_extraction ADD users TEXT;
+success!
+timestamp: 2014-07-17T01:33:48.717792
+ALTER TABLE data_extraction ADD submissions INTEGER;
+timestamp: 2014-07-17T01:34:54.410077
+ALTER TABLE data_extraction ADD submissions INTEGER;
+timestamp: 2014-07-17T01:35:19.849374
+ALTER TABLE data_extraction ADD submissions INTEGER;
+timestamp: 2014-07-17T01:36:21.213298
+ALTER TABLE data_list ADD total_submissions INTEGER;
+timestamp: 2014-07-17T01:36:21.216060
+ALTER TABLE data_list ADD total_users TEXT;
+success!
+timestamp: 2014-07-17T01:36:21.226641
+ALTER TABLE data_extraction ADD submissions INTEGER;
+success!
+timestamp: 2014-07-17T01:38:50.671262
+ALTER TABLE data_extraction ADD this_submissions INTEGER;
+timestamp: 2014-07-17T01:38:50.673915
+ALTER TABLE data_extraction ADD this_users TEXT;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
