@@ -22,7 +22,11 @@ def tutorial():
 
 #@auth.requires_login()
 def contribute():
-    return dict(sentence=XML(get_sentence()))
+    x = db(db.clear).select()
+    y = db(db.once).select()
+    z = db(db.approved).select()
+
+    return dict(sentence="test", clear=len(x), once=len(y), approved=len(z))
 
 def user():
     """
