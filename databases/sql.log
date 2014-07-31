@@ -112,3 +112,154 @@ success!
 success!
 success!
 success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2014-07-31T15:35:24.679145
+CREATE TABLE clear(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sentence TEXT,
+    conjuction TEXT,
+    plaintext CHAR(512)
+);
+success!
+timestamp: 2014-07-31T15:36:41.132169
+CREATE TABLE once(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sentence TEXT,
+    conjuction TEXT,
+    plaintext CHAR(512),
+    highlighted TEXT,
+    person INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-07-31T15:36:59.855440
+CREATE TABLE approved(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sentence TEXT,
+    conjuction TEXT,
+    plaintext CHAR(512),
+    highlighted TEXT,
+    person1 INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    person2 INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!

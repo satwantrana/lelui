@@ -83,6 +83,7 @@ use_janrain(auth, filename='private/janrain.key')
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
 
-db.define_table('data_list',Field('sentence','list:string'),Field('conjunction','list:integer'),Field('total_submissions','integer'),Field('extractions','list:reference data_extraction'),Field('total_users','list:reference auth_user'))
 
-db.define_table('data_extraction',Field('this_submissions','integer'),Field('elements','list:integer'),Field('this_users','list:reference auth_user'))
+db.define_table('clear', Field('sentence','list:string'), Field('conjuction', 'list:integer'), Field('plaintext', 'string'))
+db.define_table('once', Field('sentence','list:string'), Field('conjuction', 'list:integer'), Field('plaintext', 'string'), Field('highlighted', 'list:integer'), Field('person', 'reference auth_user'))
+db.define_table('approved', Field('sentence','list:string'), Field('conjuction', 'list:integer'), Field('plaintext', 'string'), Field('highlighted', 'list:integer'), Field('person1', 'reference auth_user'), Field('person2', 'reference auth_user'))

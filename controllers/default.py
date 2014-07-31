@@ -1,36 +1,20 @@
-# -*- coding: utf-8 -*-
-# this file is released under public domain and you can use without limitations
-
-#########################################################################
-## This is a sample controller
-## - index is the default action of any application
-## - user is required for authentication and authorization
-## - download is for downloading files uploaded in the db (does streaming)
-## - call exposes all registered services (none by default)
-#########################################################################
 from random import randrange
 
 def index():
-    """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
-
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
-    """
-    #response.flash = T("Welcome to web2py!")
     return dict(message=T('Welcome to our Crowd Sourcing Platform!'))
 
 #@auth.requires_login()
 def get_sentence():
-    x=None
-    y=None
-    x = db.data_list.select(db.data_list.ALL,db.data_list.submissions==0)[0]
-    for y in db.data_list.select(db.data_list.ALL,db.data_list.submissions>0):
-        if y.users.contains(auth.user_id)==False: break
-    r = randrange(3)
-    if r==0: return y or -1
-    return x or -1
+    # x=None
+    # y=None
+    # x = db.data_list.select(db.data_list.ALL,db.data_list.submissions==0)[0]
+    # for y in db.data_list.select(db.data_list.ALL,db.data_list.submissions>0):
+    #     if y.users.contains(auth.user_id)==False: break
+    # r = randrange(3)
+    # if r==0: return y or -1
+    # return x or -1
+
+    return "bla"
 
 #@auth.requires_login()
 def tutorial():
@@ -38,7 +22,7 @@ def tutorial():
 
 #@auth.requires_login()
 def contribute():
-    return dict()
+    return dict(sentence=XML(get_sentence()))
 
 def user():
     """

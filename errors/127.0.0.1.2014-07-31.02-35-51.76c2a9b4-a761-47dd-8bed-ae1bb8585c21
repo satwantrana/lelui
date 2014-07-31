@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.AttributeError'> 'Table' object has no attribute 'select'"
+p3
+sS'layer'
+p4
+S'/Users/sky/Desktop/web2py/applications/lelui/controllers/default.py'
+p5
+sS'code'
+p6
+S'from random import randrange\n\ndef index():\n    return dict(message=T(\'Welcome to our Crowd Sourcing Platform!\'))\n\n#@auth.requires_login()\ndef get_sentence():\n    x=None\n    y=None\n    x = db.data_list.select(db.data_list.ALL,db.data_list.submissions==0)[0]\n    for y in db.data_list.select(db.data_list.ALL,db.data_list.submissions>0):\n        if y.users.contains(auth.user_id)==False: break\n    r = randrange(3)\n    if r==0: return y or -1\n    return x or -1\n\n#@auth.requires_login()\ndef tutorial():\n    return dict()\n\n#@auth.requires_login()\ndef contribute():\n    return dict(sentence=XML(get_sentence()))\n\ndef user():\n    """\n    exposes:\n    http://..../[app]/default/user/login\n    http://..../[app]/default/user/logout\n    http://..../[app]/default/user/register\n    http://..../[app]/default/user/profile\n    http://..../[app]/default/user/retrieve_password\n    http://..../[app]/default/user/change_password\n    http://..../[app]/default/user/manage_users (requires membership in\n    use @auth.requires_login()\n        @auth.requires_membership(\'group name\')\n        @auth.requires_permission(\'read\',\'table name\',record_id)\n    to decorate functions that need access control\n    """\n    return dict(form=auth())\n\n@cache.action()\ndef download():\n    """\n    allows downloading of uploaded files\n    http://..../[app]/default/download/[filename]\n    """\n    return response.download(request, db)\n\n\ndef call():\n    """\n    exposes services. for example:\n    http://..../[app]/default/call/jsonrpc\n    decorate with @services.jsonrpc the functions to expose\n    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv\n    """\n    return service()\n\n\n@auth.requires_signature()\ndef data():\n    """\n    http://..../[app]/default/data/tables\n    http://..../[app]/default/data/create/[table]\n    http://..../[app]/default/data/read/[table]/[id]\n    http://..../[app]/default/data/update/[table]/[id]\n    http://..../[app]/default/data/delete/[table]/[id]\n    http://..../[app]/default/data/select/[table]\n    http://..../[app]/default/data/search/[table]\n    but URLs must be signed, i.e. linked with\n      A(\'table\',_href=URL(\'data/tables\',user_signature=True))\n    or with the signed load operator\n      LOAD(\'default\',\'data.load\',args=\'tables\',ajax=True,user_signature=True)\n    """\n    return dict(form=crud())\n\nresponse._vars=response._caller(contribute)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/Users/sky/Desktop/web2py/gluon/restricted.py", line 220, in restricted\n    exec ccode in environment\n  File "/Users/sky/Desktop/web2py/applications/lelui/controllers/default.py", line 78, in <module>\n  File "/Users/sky/Desktop/web2py/gluon/globals.py", line 385, in <lambda>\n    self._caller = lambda f: f()\n  File "/Users/sky/Desktop/web2py/applications/lelui/controllers/default.py", line 23, in contribute\n    return dict(sentence=XML(get_sentence()))\n  File "/Users/sky/Desktop/web2py/applications/lelui/controllers/default.py", line 10, in get_sentence\n    x = db.data_list.select(db.data_list.ALL,db.data_list.submissions==0)[0]\n  File "/Users/sky/Desktop/web2py/gluon/dal.py", line 8912, in __getitem__\n    return ogetattr(self, str(key))\nAttributeError: \'Table\' object has no attribute \'select\'\n'
+p11
+s.
