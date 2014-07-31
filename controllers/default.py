@@ -5,15 +5,6 @@ def index():
 
 #@auth.requires_login()
 def get_sentence():
-    # x=None
-    # y=None
-    # x = db.data_list.select(db.data_list.ALL,db.data_list.submissions==0)[0]
-    # for y in db.data_list.select(db.data_list.ALL,db.data_list.submissions>0):
-    #     if y.users.contains(auth.user_id)==False: break
-    # r = randrange(3)
-    # if r==0: return y or -1
-    # return x or -1
-
     return "bla"
 
 #@auth.requires_login()
@@ -25,8 +16,15 @@ def contribute():
     x = db(db.clear).select()
     y = db(db.once).select()
     z = db(db.approved).select()
-
-    return dict(sentence="test", clear=len(x), once=len(y), approved=len(z))
+    instr = ''
+    btn = ''
+    if len(x) > len(y):
+        instr = XML("<h4> Annotate the following sentence for list elements </h4>")
+        btn = XML("<button type='submit' class='btn btn-primary'>Submit</button>")
+    else:
+        instr = XML("<h4> Approve or disapprove the following annotation </h4>")
+        btn = XML("<button type='submit' class='btn btn-success'>Approve</button> <button type='submit' class='btn btn-danger'>Disapprove</button>")
+    return dict(sentence=XML("<p>test</p>"), clear=len(x), once=len(y), approved=len(z), instruction=instr, buttons=btn)
 
 def user():
     """
