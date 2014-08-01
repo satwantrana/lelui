@@ -263,3 +263,63 @@ CREATE TABLE approved(
     person2 INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
 );
 success!
+timestamp: 2014-08-01T10:55:17.735225
+ALTER TABLE clear ADD conjunction TEXT;
+success!
+timestamp: 2014-08-01T10:55:17.781310
+ALTER TABLE once ADD conjunction TEXT;
+success!
+timestamp: 2014-08-01T10:55:17.787851
+ALTER TABLE approved ADD conjunction TEXT;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!

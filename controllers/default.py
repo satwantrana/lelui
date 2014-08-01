@@ -1,4 +1,4 @@
-from random import randrange
+import random
 
 def index():
     return dict(message=T('Welcome to our Crowd Sourcing Platform!'))
@@ -11,20 +11,64 @@ def get_sentence():
 def tutorial():
     return dict()
 
+
+
+def getSentence(data):
+    ret = "<p>"
+    words = data['sentence']
+    separators = data['conjunction']
+    j = 0
+    for i in xrange(len(words)):
+        if j <> len(separators) and i == separators[j]:
+            j += 1
+            ret += "<span class='red word'>" + words[i] + "</span>&nbsp;"
+        else:
+            ret += "<span class='word'>" + words[i] + "</span>&nbsp;"
+    ret += "</p>"
+    return XML(ret)
+
+def getAnnotation(data):
+    ret = "<p>"
+    words = data['sentence']
+    separators = data['conjunction']
+    high = data['highlighted']
+    j = 0
+    k = 0
+    for i in xrange(len(words)):
+        if j <> len(separators) and i == separators[j]:
+            j += 1
+            ret += "<span class='red word'>" + words[i] + "</span>&nbsp;"
+        elif k <> len(high) and i == high[k]:
+            k += 1
+            ret += "<span class='high word'>" + words[i] + "</span>&nbsp;"
+        else:
+            ret += "<span class='word'>" + words[i] + "</span>&nbsp;"
+    ret += "</p>"
+    return XML(ret)
 #@auth.requires_login()
 def contribute():
+    db(db.clear).delete()
+    db.clear.insert(sentence=["this", "is", "shit", "and", "smack"], conjunction=[3])
+    db(db.once).delete()
+    db.once.insert(sentence=["this", "is", "shit", "and", "smack"], conjunction=[3], highlighted=[2,4])
     x = db(db.clear).select()
     y = db(db.once).select()
     z = db(db.approved).select()
-    instr = ''
-    btn = ''
+    instr = None
+    btn = None
+    sn = None
     if len(x) > len(y):
         instr = XML("<h4> Annotate the following sentence for list elements </h4>")
         btn = XML("<button type='submit' class='btn btn-primary'>Submit</button>")
+        session.index = random.randint(0, len(x)-1)
+        print x[session.index]
+        sn = getSentence(x[session.index])
     else:
         instr = XML("<h4> Approve or disapprove the following annotation </h4>")
         btn = XML("<button type='submit' class='btn btn-success'>Approve</button> <button type='submit' class='btn btn-danger'>Disapprove</button>")
-    return dict(sentence=XML("<p>test</p>"), clear=len(x), once=len(y), approved=len(z), instruction=instr, buttons=btn)
+        session.index = random.randint(0, len(y)-1)
+        sn = getAnnotation(y[session.index])
+    return dict(sentence=sn, clear=len(x), once=len(y), approved=len(z), instruction=instr, buttons=btn)
 
 def user():
     """
