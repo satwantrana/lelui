@@ -1,4 +1,5 @@
 import random
+import json
 
 def index():
     return dict(message=T('Welcome to our Crowd Sourcing Platform!'))
@@ -14,6 +15,9 @@ def tutorial():
 
 
 def getSentence(data):
+    session.data = data
+    session.type = "clear"
+    print type(data)
     ret = "<p>"
     words = data['sentence']
     separators = data['conjunction']
@@ -21,13 +25,16 @@ def getSentence(data):
     for i in xrange(len(words)):
         if j <> len(separators) and i == separators[j]:
             j += 1
-            ret += "<span class='red word'>" + words[i] + "</span>&nbsp;"
+            ret += "<span class='red' id='"+str(i)+"'>" + words[i] + "&nbsp;</span>"
         else:
-            ret += "<span class='word'>" + words[i] + "</span>&nbsp;"
+            ret += "<span class='word' id='"+str(i)+"'>" + words[i] + "&nbsp;</span>"
     ret += "</p>"
     return XML(ret)
 
+
 def getAnnotation(data):
+    session.data = data
+    session.type = "once"
     ret = "<p>"
     words = data['sentence']
     separators = data['conjunction']
@@ -37,20 +44,21 @@ def getAnnotation(data):
     for i in xrange(len(words)):
         if j <> len(separators) and i == separators[j]:
             j += 1
-            ret += "<span class='red word'>" + words[i] + "</span>&nbsp;"
+            ret += "<span class='red'>" + words[i] + "&nbsp;</span>"
         elif k <> len(high) and i == high[k]:
             k += 1
-            ret += "<span class='high word'>" + words[i] + "</span>&nbsp;"
+            ret += "<span class='high'>" + words[i] + "&nbsp;</span>"
         else:
-            ret += "<span class='word'>" + words[i] + "</span>&nbsp;"
+            ret += "<span>" + words[i] + "&nbsp;</span>"
     ret += "</p>"
     return XML(ret)
+
+
 #@auth.requires_login()
 def contribute():
     db(db.clear).delete()
     db.clear.insert(sentence=["this", "is", "shit", "and", "smack"], conjunction=[3])
     db(db.once).delete()
-    db.once.insert(sentence=["this", "is", "shit", "and", "smack"], conjunction=[3], highlighted=[2,4])
     x = db(db.clear).select()
     y = db(db.once).select()
     z = db(db.approved).select()
@@ -59,9 +67,8 @@ def contribute():
     sn = None
     if len(x) > len(y):
         instr = XML("<h4> Annotate the following sentence for list elements </h4>")
-        btn = XML("<button type='submit' class='btn btn-primary'>Submit</button>")
+        btn = XML("<button type='submit' class='btn btn-primary' id='submit'>Submit</button>")
         session.index = random.randint(0, len(x)-1)
-        print x[session.index]
         sn = getSentence(x[session.index])
     else:
         instr = XML("<h4> Approve or disapprove the following annotation </h4>")
@@ -69,6 +76,20 @@ def contribute():
         session.index = random.randint(0, len(y)-1)
         sn = getAnnotation(y[session.index])
     return dict(sentence=sn, clear=len(x), once=len(y), approved=len(z), instruction=instr, buttons=btn)
+
+
+def recordAnnotation():
+    lis = map(int, filter(None, request.vars.lis.split(',')))
+    id = data['id']
+
+    db(db.clear.id == id).delete()
+    print lis
+    ret = contribute()
+    ret['sentence'] = str(ret['sentence'])
+    ret['instruction'] = str(ret['instruction'])
+    ret['buttons'] = str(ret['buttons'])
+    return json.dumps(ret)
+
 
 def user():
     """
