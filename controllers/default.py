@@ -1,44 +1,95 @@
-# -*- coding: utf-8 -*-
-# this file is released under public domain and you can use without limitations
-
-#########################################################################
-## This is a sample controller
-## - index is the default action of any application
-## - user is required for authentication and authorization
-## - download is for downloading files uploaded in the db (does streaming)
-## - call exposes all registered services (none by default)
-#########################################################################
-from random import randrange
+import random
+import json
 
 def index():
-    """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
-
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
-    """
-    #response.flash = T("Welcome to web2py!")
     return dict(message=T('Welcome to our Crowd Sourcing Platform!'))
 
 #@auth.requires_login()
 def get_sentence():
-    x=None
-    y=None
-    x = db.data_list.select(db.data_list.ALL,db.data_list.submissions==0)[0]
-    for y in db.data_list.select(db.data_list.ALL,db.data_list.submissions>0):
-        if y.users.contains(auth.user_id)==False: break
-    r = randrange(3)
-    if r==0: return y or -1
-    return x or -1
+    return "bla"
 
 #@auth.requires_login()
 def tutorial():
     return dict()
 
+
+
+def getSentence(data):
+    session.data = data
+    session.type = "clear"
+    print type(data)
+    ret = "<p>"
+    words = data['sentence']
+    separators = data['conjunction']
+    j = 0
+    for i in xrange(len(words)):
+        if j <> len(separators) and i == separators[j]:
+            j += 1
+            ret += "<span class='red' id='"+str(i)+"'>" + words[i] + "&nbsp;</span>"
+        else:
+            ret += "<span class='word' id='"+str(i)+"'>" + words[i] + "&nbsp;</span>"
+    ret += "</p>"
+    return XML(ret)
+
+
+def getAnnotation(data):
+    session.data = data
+    session.type = "once"
+    ret = "<p>"
+    words = data['sentence']
+    separators = data['conjunction']
+    high = data['highlighted']
+    j = 0
+    k = 0
+    for i in xrange(len(words)):
+        if j <> len(separators) and i == separators[j]:
+            j += 1
+            ret += "<span class='red'>" + words[i] + "&nbsp;</span>"
+        elif k <> len(high) and i == high[k]:
+            k += 1
+            ret += "<span class='high'>" + words[i] + "&nbsp;</span>"
+        else:
+            ret += "<span>" + words[i] + "&nbsp;</span>"
+    ret += "</p>"
+    return XML(ret)
+
+
 #@auth.requires_login()
 def contribute():
-    return dict()
+    db(db.clear).delete()
+    db.clear.insert(sentence=["this", "is", "shit", "and", "smack"], conjunction=[3])
+    db(db.once).delete()
+    x = db(db.clear).select()
+    y = db(db.once).select()
+    z = db(db.approved).select()
+    instr = None
+    btn = None
+    sn = None
+    if len(x) > len(y):
+        instr = XML("<h4> Annotate the following sentence for list elements </h4>")
+        btn = XML("<button type='submit' class='btn btn-primary' id='submit'>Submit</button>")
+        session.index = random.randint(0, len(x)-1)
+        sn = getSentence(x[session.index])
+    else:
+        instr = XML("<h4> Approve or disapprove the following annotation </h4>")
+        btn = XML("<button type='submit' class='btn btn-success'>Approve</button> <button type='submit' class='btn btn-danger'>Disapprove</button>")
+        session.index = random.randint(0, len(y)-1)
+        sn = getAnnotation(y[session.index])
+    return dict(sentence=sn, clear=len(x), once=len(y), approved=len(z), instruction=instr, buttons=btn)
+
+
+def recordAnnotation():
+    lis = map(int, filter(None, request.vars.lis.split(',')))
+    id = data['id']
+
+    db(db.clear.id == id).delete()
+    print lis
+    ret = contribute()
+    ret['sentence'] = str(ret['sentence'])
+    ret['instruction'] = str(ret['instruction'])
+    ret['buttons'] = str(ret['buttons'])
+    return json.dumps(ret)
+
 
 def user():
     """

@@ -1,3 +1,9 @@
 {{extend 'layout.html'}}
-<h3>Label the list elements corresponding to the conjunction in the following sentence,</h3>
-{{=BEAUTIFY(response._vars)}}
+<div id="holder">
+<h5> Clear: {{=clear}} </h5>
+<h5> Once: {{=once}} </h5>
+<h5> Approved: {{=approved}} </h5>
+{{=instruction}}
+{{=sentence}}
+{{=buttons}}
+</div>
