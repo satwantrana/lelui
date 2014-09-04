@@ -7,8 +7,6 @@ $(document).ready(function(){
         $('.word.high').each(function(){
             lis[lis.length] = $(this).attr('id').toString();
         });
-	console.log("in js clicker");
-	console.log(lis.toString());
         $.ajax({
             type: "POST",
             data: {lis : lis.toString()},

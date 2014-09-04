@@ -45,7 +45,6 @@ def contribute():
         instr = XML("<h4> Annotate the following sentence for list elements </h4>")
         btn = XML("<button type='submit' class='btn btn-primary' id='submit'>Submit</button>")
         session.index = random.randint(0, len(x)-1)
-        print "rand index", session.index
         sn = getAnnotation(x[session.index])
     return dict(sentence=sn, once=len(x), approved=len(y), instruction=instr, buttons=btn)
 

@@ -84,5 +84,6 @@ use_janrain(auth, filename='private/janrain.key')
 # auth.enable_record_versioning(db)
 
 
+db.define_table('clear', Field('sentence','list:string'), Field('conjunction', 'list:integer'), Field('plaintext', 'string'))
 db.define_table('once', Field('sentence','list:string'), Field('conjunction', 'list:integer'), Field('plaintext', 'string'), Field('highlighted', 'list:integer'), Field('person', 'reference auth_user'))
 db.define_table('approved', Field('sentence','list:string'), Field('conjunction', 'list:integer'), Field('plaintext', 'string'), Field('highlighted', 'list:integer'), Field('person1', 'reference auth_user'), Field('person2', 'reference auth_user'))
